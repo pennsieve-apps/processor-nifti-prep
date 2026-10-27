@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://schemas.pennsieve.io/app-manifest/v1.json
+schemaVersion: "1.0"
+application:
+  name: NIfTI Prep
+  description: >-
+    Step 1 of the Clinical Brain MRI Volumetrics workflow. Takes the structural
+    MRI the user selected (NIfTI .nii/.nii.gz in any folder layout, optionally
+    DICOM series folders), reorients every 3D volume to RAS with nibabel, sorts
+    it by modality from its file name (T1w, FLAIR, T2w) into BIDS-style names
+    (<sub>_T1w.nii.gz), copies the BIDS JSON sidecars along and writes
+    metadata/images.json describing each image. DICOM folders are converted
+    first with dcm2niix (Li X, Morgan PS, Ashburner J, Smith J, Rorden C. 2016.
+    J Neurosci Methods 264:47-56).
+  type: processor
+  tags:
+    - neuroimaging
+    - mri
+    - nifti
+    - dcm2niix
+runtime:
+  cpu: 1024
+  memory: 4096
+  # standard (ECS) by default; light enough to run as a Lambda function too
+  # (the image serves both, see processor/entry.py).
+  computeTypes:
+    - standard
+    - lambda
+  timeoutSeconds: 900
+parameters:
+  - name: DEFAULT_MODALITY
+    type: string
+    description: >-
+      What to do with an image whose file name carries no modality clue
+      (T1w/t1/mprage, FLAIR/flair, T2w/t2): treat it as this modality, or
+      "skip" to drop it.
+    defaultValue: "T1w"
+    validValues:
+      - T1w
+      - FLAIR
+      - T2w
+      - skip
+# One input, at the root of INPUT_DIR: the app searches it recursively, so any
+# folder layout works (a BIDS tree, a flat folder, a DICOM series folder).
+inputs:
+  - name: images
+    description: >-
+      Structural MRI: NIfTI files (.nii, .nii.gz) in any folder layout, and/or
+      DICOM series folders. BIDS JSON sidecars next to a NIfTI are picked up.
+    mediaTypes:
+      - application/x-nifti-gz
+      - application/x-nifti
+      - application/dicom
+    required: true
+# Four outputs: each is written to its own folder, OUTPUT_DIR/<name>/.
+outputs:
+  - name: t1w
+    description: T1-weighted images, RAS, as <sub>_T1w.nii.gz; also holds provenance.json.
+    mediaTypes:
+      - application/x-nifti-gz
+      - application/json
+  - name: flair
+    description: FLAIR images, RAS, as <sub>_FLAIR.nii.gz.
+    mediaTypes:
+      - application/x-nifti-gz
+  - name: other
+    description: T2-weighted images (<sub>_T2w.nii.gz) and anything else, RAS.
+    mediaTypes:
+      - application/x-nifti-gz
+  - name: metadata
+    description: >-
+      images.json (one record per output image: subject, modality, shape, voxel
+      size, dtype, orientation before/after, intensity range, scanner fields)
+      and the copied BIDS sidecars, <sub>_<Suffix>.json.
+    mediaTypes:
+      - application/json

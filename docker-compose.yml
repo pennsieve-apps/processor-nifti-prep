@@ -1,0 +1,12 @@
+services:
+  processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    user: "1000:1000"
+    env_file:
+      - dev.env
+    volumes:
+      - ./data/input:/data/input:ro
+      - ./data/output:/data/output
