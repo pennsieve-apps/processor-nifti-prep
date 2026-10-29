@@ -1,0 +1,36 @@
+cff-version: "1.2.0"
+message: If you use this app, please cite it and the works it builds on, listed under references.
+type: software
+title: NIfTI Prep
+abstract: Step 1 of the Clinical Brain MRI Volumetrics workflow. Reorients structural MRI volumes to RAS
+  with nibabel, converting DICOM series with dcm2niix first, sorts them by modality into BIDS-style names
+  and writes image metadata.
+authors:
+- name: Pennsieve (University of Pennsylvania)
+repository-code: https://github.com/pennsieve-apps/processor-nifti-prep
+license: Apache-2.0
+keywords:
+- neuroimaging
+- mri
+- nifti
+- dcm2niix
+references:
+- type: article
+  title: 'The first step for neuroimaging data analysis: DICOM to NIfTI conversion'
+  authors:
+  - family-names: Li
+    given-names: Xiangrui
+  - family-names: Morgan
+    given-names: Paul S.
+  - family-names: Ashburner
+    given-names: John
+  - family-names: Smith
+    given-names: Jolinda
+  - family-names: Rorden
+    given-names: Christopher
+  year: 2016
+  journal: Journal of Neuroscience Methods
+  volume: 264
+  start: '47'
+  end: '56'
+  doi: 10.1016/j.jneumeth.2016.03.001
