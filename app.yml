@@ -73,3 +73,17 @@ outputs:
       and the copied BIDS sidecars, <sub>_<Suffix>.json.
     mediaTypes:
       - application/json
+
+# How a release is tested before it is made public: the inputs a review run uses.
+# See app-deploy-service docs/app-manifest-review.md.
+review:
+  version: 1
+  inputs:
+    images:
+      dataset:
+        doi: 10.18112/openneuro.ds000117.v2.0.0
+        files:
+          - sub-01/ses-mri/anat/sub-01_ses-mri_T1w.nii.gz
+          - sub-01/ses-mri/anat/sub-01_ses-mri_T1w.json
+          - sub-02/ses-mri/anat/sub-02_ses-mri_T1w.nii.gz
+          - sub-02/ses-mri/anat/sub-02_ses-mri_T1w.json
