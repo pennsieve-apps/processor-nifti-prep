@@ -1,5 +1,6 @@
 cff-version: "1.2.0"
-message: If you use this app, please cite it and the works it builds on, listed under references.
+message: >-
+  If you use this app, please cite the work it implements (preferred-citation), this release, and Pennsieve (RRID:SCR_021677); the other works it builds on are listed under references.
 type: software
 title: NIfTI Prep
 abstract: Step 1 of the Clinical Brain MRI Volumetrics workflow. Reorients structural MRI volumes to RAS
@@ -14,6 +15,27 @@ keywords:
 - mri
 - nifti
 - dcm2niix
+# The work this app implements; the release report's "How to cite" puts it first.
+preferred-citation:
+  type: article
+  title: 'The first step for neuroimaging data analysis: DICOM to NIfTI conversion'
+  authors:
+  - family-names: Li
+    given-names: Xiangrui
+  - family-names: Morgan
+    given-names: Paul S.
+  - family-names: Ashburner
+    given-names: John
+  - family-names: Smith
+    given-names: Jolinda
+  - family-names: Rorden
+    given-names: Christopher
+  year: 2016
+  journal: Journal of Neuroscience Methods
+  volume: 264
+  start: '47'
+  end: '56'
+  doi: 10.1016/j.jneumeth.2016.03.001
 references:
 - type: article
   title: 'The first step for neuroimaging data analysis: DICOM to NIfTI conversion'
